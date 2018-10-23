@@ -392,5 +392,8 @@ No additional parameters required
 `GET /api/tags`
 
 
+### Update all packages in your virtual environment
+Remember to change pip to the correct version that corresponds with your python installation (pip, pip3)
 
+--pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
 

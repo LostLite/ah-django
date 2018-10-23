@@ -3,12 +3,14 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_swagger.views import get_swagger_view
 
 from .renderers import UserJSONRenderer
 from .serializers import (
     LoginSerializer, RegistrationSerializer, UserSerializer
 )
 
+schema_view = get_swagger_view(title='Authors Haven API')
 
 class RegistrationAPIView(APIView):
     # Allow any user (authenticated or not) to hit this endpoint.

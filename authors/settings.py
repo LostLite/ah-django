@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_extensions',
     'rest_framework',
+    'rest_framework_swagger',
 
     'authors.apps.authentication',
     'authors.apps.core',
@@ -81,8 +82,12 @@ WSGI_APPLICATION = 'authors.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('AHDJANGO_DB'),
+        'USER': os.getenv('AHDJANGO_USER'),
+        'PASSWORD': os.getenv('AHDJANGO_PWD'),
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
