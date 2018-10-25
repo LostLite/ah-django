@@ -3,7 +3,9 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.urls import reverse
-from .models import User
+from .models import (
+    User
+)
 
 class ModelTest(TestCase):
 
@@ -23,8 +25,7 @@ class ModelTest(TestCase):
         self.testUser.save()
         newUser = User(username='testuser',email='another@test.user', password='123456')
 
-        #self.assertRaises(IntegrityError, newUser.save())
         with self.assertRaises(IntegrityError):
             newUser.save()
 
-        
+    

@@ -117,4 +117,43 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         return self.username
 
+class Profile(models.Model):
+    owner  = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    bio = models.TextField()
+    image = models.TextField()
+    following = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
+class Articles(models.Model):
+    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    slug = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    favorited = models.BooleanField(default=False)
+    favorites_count = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+
+class Comments(models.Model):
+    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    body = models.TextField()
+
+    def __str__(self):
+        return self.body
+
+class Tags(models.Model):
+    tag = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.tag
 
