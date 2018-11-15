@@ -23,8 +23,6 @@ before_script:
  - psql -c 'create database ah_django;' -U postgres
 
  
-script:
- - python manage.py makemigrations
- - python manage.py test
+script: python manage.py test
 
 cache: pip
