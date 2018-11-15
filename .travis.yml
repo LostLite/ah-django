@@ -10,7 +10,7 @@ env:
  - DJANGO=2.1.2 DB=postgres
 
 before_install:
- - export DJANGO_SETTINGS_MODULE=authors.settings
+ - export DJANGO_SETTINGS_MODULE=authors.settings.test
  - export PYTHONPATH=$HOME/builds/lostlite/ah-django
  - export PIP_USE_MIRRORS=true
 
@@ -22,7 +22,7 @@ install:
 before_script:
  - psql -c 'create database ah_django;' -U postgres
 
- 
+
 script: python manage.py test
 
-cache: pip
+after_success: coveralls

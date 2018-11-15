@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/LostLite/ah-django.svg?branch=master)](https://travis-ci.org/LostLite/ah-django)
+
 Authors Haven - A Social platform for the creative at heart.
 =======
 
