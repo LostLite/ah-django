@@ -9,8 +9,12 @@ services:
 env:
  - DJANGO=2.1.2 DB=postgres
 
+before_install:
+ - sudo apt-get update
+ - sudo apt-get install python3
+
 install:
- - pip3 install -r requirements.txt
+ - pip install -r requirements.txt
 
 before_script:
  - psql -c 'create database ah-django;' -U postgres
