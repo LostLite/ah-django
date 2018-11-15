@@ -13,10 +13,10 @@ install:
  - pip install -r requirements.txt
 
 before_script:
- - psql -c 'create database ah-django;' -U postgres
+ - psql -c 'create database ah_django;' -U postgres
  
 script:
  - python manage.py makemigrations
  - python manage.py test
 
- cache: pip
+cache: pip
