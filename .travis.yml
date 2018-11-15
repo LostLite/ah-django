@@ -17,6 +17,5 @@ before_script:
  
 script:
  - python manage.py makemigrations
- - python manage.py test
 
 cache: pip
