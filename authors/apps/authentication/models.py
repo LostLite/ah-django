@@ -129,9 +129,9 @@ class Profile(models.Model):
         return "{} {}".format(self.first_name, self.last_name)
 
 class Articles(models.Model):
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author")
     slug = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=255)
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -143,7 +143,8 @@ class Articles(models.Model):
         return self.title
 
 class Comments(models.Model):
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_author')
+    article = models.ForeignKey(Articles, on_delete=models.CASCADE, related_name='comment_article')
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     body = models.TextField()

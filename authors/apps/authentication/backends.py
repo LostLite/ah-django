@@ -32,13 +32,13 @@ class JWTAuthentication(authentication.BaseAuthentication):
                             handle the rest.
         """
         request.user = None
-
+        
         # `auth_header` should be an array with two elements: 1) the name of
         # the authentication header (in this case, "Token") and 2) the JWT 
         # that we should authenticate against.
         auth_header = authentication.get_authorization_header(request).split()
         auth_header_prefix = self.authentication_header_prefix.lower()
-
+        
         if not auth_header:
             return None
 
@@ -51,7 +51,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
             # Invalid token header. The Token string should not contain spaces. Do
             # not attempt to authenticate.
             return None
-
+        
         # The JWT library we're using can't handle the `byte` type, which is
         # commonly used by standard libraries in Python 3. To get around this,
         # we simply have to decode `prefix` and `token`. This does not make for
@@ -80,9 +80,8 @@ class JWTAuthentication(authentication.BaseAuthentication):
         except:
             msg = 'Invalid authentication. Could not decode token.'
             raise exceptions.AuthenticationFailed(msg)
-
         try:
-            user = User.objects.get(pk=payload['id'])
+            user = User.objects.get(username=payload['username'])
         except User.DoesNotExist:
             msg = 'No user matching this token was found.'
             raise exceptions.AuthenticationFailed(msg)
@@ -91,4 +90,6 @@ class JWTAuthentication(authentication.BaseAuthentication):
             msg = 'This user has been deactivated.'
             raise exceptions.AuthenticationFailed(msg)
 
+        # set active user in request    
+        request.user = user
         return (user, token)

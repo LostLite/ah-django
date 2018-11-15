@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 
 from rest_framework import serializers
 
-from .models import User
+from .models import User, Articles, Comments
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         model = User
         # List all of the fields that could possibly be included in a request
         # or response, including fields specified explicitly above.
-        fields = ['email', 'username', 'password']
+        fields = ['id','email', 'username', 'password']
 
     def create(self, validated_data):
         # Use the `create_user` method we wrote earlier to create a new user.
@@ -44,7 +44,7 @@ class LoginSerializer(serializers.Serializer):
         # our database.
         email = data.get('email', None)
         password = data.get('password', None)
-
+        
         # As mentioned above, an email is required. Raise an exception if an
         # email is not provided.
         if email is None:
@@ -85,6 +85,7 @@ class LoginSerializer(serializers.Serializer):
         # This is the data that is passed to the `create` and `update` methods
         # that we will see later on.
         return {
+            'id': user.id,
             'email': user.email,
             'username': user.username,
 
@@ -142,4 +143,53 @@ class UserSerializer(serializers.ModelSerializer):
         # save the model.
         instance.save()
 
+        return instance
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    
+    author_id = serializers.IntegerField()
+
+    class Meta:
+        model = Articles
+        fields = ('id', 'author_id', 'slug', 'title', 'description', 'body')
+
+    def create(self, validated_data):
+        # create a new article using the validated data
+        return Articles.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+
+        # update data
+        instance.slug = validated_data.get('slug', instance.slug)
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.body = validated_data.get('body', instance.body)
+
+        # save instance
+        instance.save()
+        
+        return instance
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    author_id = serializers.IntegerField()
+    article_id = serializers.IntegerField()
+
+    class Meta:
+        model = Comments
+        fields = ('author_id', 'article_id', 'body')
+
+    def create(self, validated_data):
+        return Comments.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+
+        #update the instance with new data
+        instance.body = validated_data.get('body', instance.body)
+
+        # save instance
+        instance.save()
+
+        # return instance
         return instance
