@@ -14,7 +14,7 @@ env:
 
 before_install:
  - export DJANGO_SETTINGS_MODULE=authors.settings
- - export PYTHONPATH=$HOME/builds/lostlite/ah-django
+ - export PYTHONPATH=/home/travis/build/lostlite/ah-django
  - export PIP_USE_MIRRORS=true
 
 install:
