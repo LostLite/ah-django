@@ -260,7 +260,7 @@ class CommentsViewTest(BaseTestClass):
 
         my_comment = {'article_id':article.id, 'body':'This is a comment'}
         response = self.client.post(reverse('article-comments-add', kwargs={'pk':article.id}), data= {'comment':my_comment}, format="json")
-        print(response.data)
+        
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_fetch_all_my_comments(self):
