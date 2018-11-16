@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': os.getenv('AHDJANGO_DB'),
         'USER': os.getenv('AHDJANGO_USER'),
         'PASSWORD': os.getenv('AHDJANGO_PWD'),
-        'HOST': 'localhost',
+        'HOST': os.getenv('AHDJANGO_HOST'),
         'PORT': '',
     }
 }
